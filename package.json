@@ -1,0 +1,31 @@
+{
+  "name": "coffee-templates-express",
+  "version": "0.0.0",
+  "description": "An express.js view engine for coffee-templates",
+  "main": "index.coffee",
+  "scripts": {
+    "test": "nodeunit test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/johngeorgewright/coffee-templates-express.git"
+  },
+  "keywords": [
+    "coffee",
+    "coffee-templates",
+    "templates",
+    "express"
+  ],
+  "author": "John Wright <johngeorge.wright@gmail.com>",
+  "license": "BSD",
+  "readmeFilename": "README.md",
+  "devDependencies": {
+    "coffee-script": "*",
+    "coffee-templates": "*",
+    "express": "*",
+    "nodeunit": "*",
+    "expect.js": "*",
+    "sinon": "*"
+  }
+}
+

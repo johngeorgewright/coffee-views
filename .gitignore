@@ -1,3 +1,5 @@
+.exrc
+
 lib-cov
 *.seed
 *.log
@@ -6,9 +8,11 @@ lib-cov
 *.out
 *.pid
 *.gz
+*.swp
 
 pids
 logs
+node_modules
 results
 
 npm-debug.log
