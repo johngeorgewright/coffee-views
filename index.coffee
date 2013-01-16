@@ -1,2 +1,4 @@
-exports.engine = require 'lib/engine'
+exports =
+  engine: require 'lib/engine'
+  Base: require 'lib/base'
 
