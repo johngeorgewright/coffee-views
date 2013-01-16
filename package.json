@@ -21,11 +21,13 @@
   "readmeFilename": "README.md",
   "devDependencies": {
     "coffee-script": "*",
-    "coffee-templates": "*",
     "express": "*",
     "nodeunit": "*",
     "expect.js": "*",
     "sinon": "*"
+  },
+  "dependencies": {
+    "coffee-templates": "0.0.6"
   }
 }
 
