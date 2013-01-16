@@ -1,5 +1,5 @@
 {
-  "name": "coffee-templates-express",
+  "name": "coffee-views",
   "version": "0.0.0",
   "description": "An express.js view engine for coffee-templates",
   "main": "index.coffee",
