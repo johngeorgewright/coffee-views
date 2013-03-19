@@ -1,4 +1,5 @@
 .exrc
+_exrc
 
 lib-cov
 *.seed
