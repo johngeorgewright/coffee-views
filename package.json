@@ -27,7 +27,7 @@
     "sinon": "*"
   },
   "dependencies": {
-    "coffee-templates": "0.0.6"
+    "coffee-templates": "0.0.6",
+    "underscore": "~1.4.4"
   }
 }
-
