@@ -9,7 +9,7 @@ Example
 ```coffee
 # views/layout.coffee
 
-Base = require('coffee-views').Base
+{Base} = require 'coffee-views'
 
 module.exports = class Layout extends Base
   
@@ -73,8 +73,8 @@ app.get '/', (req, res)->
     title: 'My Site'
 ```
 
-Gotchyas!
----------
+Inheriting methods
+------------------
 
-- Unfortunately, using the super() function within the view class throws an error. Still trying to get around that.
+An important factor to note is that the 
 

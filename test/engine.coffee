@@ -1,9 +1,8 @@
 CoffeeTemplate = require 'coffee-templates'
 engine         = require '../lib/engine'
-expect         = require 'expect.js'
 express        = require 'express'
-sinon          = require 'sinon'
 path           = require 'path'
+sinon          = require 'sinon'
 
 exports['#engine()'] =
 
@@ -19,7 +18,7 @@ exports['#engine()'] =
       _locals: {}
     , (err, html)->
       test.ifError err
-      expect(html).to.be '<!doctype html><html><head></head><body></body></html>'
+      test.equal html, '<!doctype html><html><head></head><body></body></html>'
       test.done()
 
   'it can render a template with parameters': (test)->
@@ -28,7 +27,7 @@ exports['#engine()'] =
       _locals: {}
     , (err, html)->
       test.ifError err
-      expect(html).to.be '<!doctype html><html><head><title>Title</title></head><body><h1>Title</h1></body></html>'
+      test.equal html, '<!doctype html><html><head><title>Title</title></head><body><h1>Title</h1></body></html>'
       test.done()
 
   'it is extensible': (test)->
@@ -37,6 +36,15 @@ exports['#engine()'] =
       _locals: {}
     , (err, html)->
       test.ifError err
-      expect(html).to.be '<!doctype html><html><head><title>Title</title><meta encoding="utf8"/></head><body><h1>Title</h1></body></html>'
+      test.equal html, '<!doctype html><html><head><title>Title</title><meta encoding="utf8"/></head><body><h1>Title</h1></body></html>'
+      test.done()
+
+  'it is highly extensible': (test)->
+    @app.render 'highly-extensible',
+      title: 'Title'
+      _locals: {}
+    , (err, html)->
+      test.ifError err
+      test.equal html, '<!doctype html><html><head><title>Title</title><meta encoding="utf8"/><meta name="description" content="A description"/></head><body><h1>Title</h1></body></html>'
       test.done()
 
