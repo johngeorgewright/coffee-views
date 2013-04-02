@@ -18,7 +18,7 @@ Example
 
 module.exports = class Layout extends Base
   
-  # The #render() method is automatically called when rendering the view
+  # The #render() method is automatically called when rendering the view in express
   render: ->
     doctype 5
     html ->
@@ -42,7 +42,6 @@ module.exports = class Layout extends Base
 Layout = require './layout'
 
 module.exports = class MyView extends Layout
-
   content: ->
     div ->
       p 'This is my view'
@@ -53,6 +52,20 @@ View = require './views/myview'
 view = new View title: 'My Site'
 
 console.log view.render()
+###
+<!doctype html>
+<html>
+  <head>
+    <title>My Site</title>
+  </head>
+  <body>
+    <h1>My Site</h1>
+    <div>
+      <p>This is my view</p>
+    </div>
+  </body>
+</html>
+###
 ```
 
 Example 2 - in Express.js
@@ -89,5 +102,25 @@ class MyExtendedView extends MyView
     literal super()
     div ->
       p 'This is an extension to "MyView"'
+
+view = new MyExtendedView title: 'My extended view'
+console.log view.render()
+###
+<!doctype html>
+<html>
+  <head>
+    <title>My extended view</title>
+  </head>
+  <body>
+    <h1>My extended view</h1>
+    <div>
+      <p>This is my view</p>
+    </div>
+    <div>
+      <p>This is an extension to "MyView"</p>
+    </div>
+  </body>
+</html>
+###
 ```
 
