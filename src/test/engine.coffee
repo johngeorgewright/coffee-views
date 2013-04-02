@@ -8,8 +8,9 @@ exports['#engine()'] =
 
   setUp: (done)->
     @app = express()
-    @app.engine 'coffee', engine
-    @app.set 'view engine', 'coffee'
+    testType = path.extname(__filename).substr 1
+    @app.engine testType, engine
+    @app.set 'view engine', testType
     @app.set 'views', path.join __dirname, 'views'
     done()
 

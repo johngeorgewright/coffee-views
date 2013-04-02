@@ -2,9 +2,12 @@
   "name": "coffee-views",
   "version": "0.0.3",
   "description": "An OOP extension to coffee-templates",
-  "main": "index.coffee",
+  "main": "build/index.js",
   "scripts": {
-    "test": "nodeunit test"
+    "dev": "coffee -c -b -w -o build src",
+    "prepublish": "coffee -c -b -o build src",
+    "test": "nodeunit src/test",
+    "testbuild": "nodeunit build/test"
   },
   "repository": {
     "type": "git",
@@ -21,15 +24,13 @@
   "license": "BSD",
   "readmeFilename": "README.md",
   "devDependencies": {
-    "coffee-script": "*",
-    "express": "*",
-    "nodeunit": "*",
-    "expect.js": "*",
-    "sinon": "*"
+    "coffee-script": "~1.6.2",
+    "sinon": "~1.6.0",
+    "express": "~3.1.1",
+    "nodeunit": "~0.8.0"
   },
   "dependencies": {
     "coffee-templates": "0.0.6",
     "underscore": "~1.4.4"
   }
 }
-

@@ -15,7 +15,7 @@ class TemplateGlobals
 # @param proto {Object} The view's prototype
 # @param ins {Object} The context which you want to bind the functions to
 bind = (proto)->
-  sup = proto.constructor.__super__
+  sup = proto.constructor.__super__ ? proto.constructor.super_
   # Loop through every method in the proto
   for method in _(proto).methods()
     # Unless the method is the constructor or
