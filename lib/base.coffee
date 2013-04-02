@@ -7,7 +7,7 @@ class TemplateGlobals
   # The constructor takes a prototype of the
   # coffee view object.
   # @param proto {Object} The coffee view object prototype
-  constructor: (@_cvProto, ins)->
+  constructor: (@_cvProto, @_cvMethodName, ins)->
     # The instance default is the prototype
     @_cvContext = ins ? @_cvProto
 
@@ -15,13 +15,13 @@ class TemplateGlobals
   # that will call the view's super method.
   # @param method {String} The super's method name
   # @return mixed
-  parent: (method)->
+  parent: ->
     # The super prototype
     sup = @_cvProto.constructor.__super__
     # Find the parent method
-    method = sup[method]
+    method = sup[@_cvMethodName]
     # Extra template globals
-    globals = new TemplateGlobals sup, @_cvContext
+    globals = new TemplateGlobals sup, @_cvMethodName, @_cvContext
     # Create a new template renderer
     renderer = new CoffeeTemplate globals: globals
     # Render the template
@@ -43,7 +43,7 @@ bind = (proto)->
         # Re-write the method
         proto[method] = ->
           # Extra template globals
-          globals = new TemplateGlobals proto
+          globals = new TemplateGlobals proto, method
           # Create a new template renderer
           template = new CoffeeTemplate globals: globals
           # Render the template
