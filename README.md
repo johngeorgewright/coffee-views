@@ -124,3 +124,69 @@ console.log view.render()
 ###
 ```
 
+Plain ol' JavaScript
+--------------------
+
+There's a possibility you may want to use plain JavaScript instead of CoffeeScript. In this case, just use Node's **util** module to extend your classes:
+
+```javascript
+// layout.js
+var Base = require('coffee-views').Base,
+    util = require('util');
+
+function Layout(){}
+module.exports = Layout;
+util.inherits(Layout, Base);
+
+Layout.prototype.render = function(){
+  doctype(5);
+  head(function(){
+    title(this.title);
+    this.stylesheets();
+  });
+  body(function(){
+    h1(this.title);
+    this.content();
+  });
+};
+
+Layout.prototype.stylesheets = function(){};
+Layout.prototype.content = function(){};
+```
+
+```javascript
+// myview.js
+var Layout = require('./layout'),
+    util = require('util');
+
+function MyExtendedView(){}
+module.exports = MyExtendedView;
+util.inherits(MyExtendedView, Layout);
+
+MyView.prototype.content = function(){
+  div(function(){
+    p('My content');
+  });
+};
+```
+
+```javascript
+// extendedview.js
+var MyView = require('./myview'),
+    util = require('util');
+
+function ExtendedView(){}
+module.exports = ExtendedView;
+util.inherits(ExtendedView, MyView);
+
+ExtendedView.prototype.content = function(){
+  // When overriding methods, you must not refer to the base
+  // class directly. This will not work due to the nature of
+  // coffee-templates. Therefore, refer to the "super_" property.
+  literal(ExtendedView.super_.prototype.content.call(this));
+  div(function(){
+    p('Native extensions');
+  });
+};
+```
+
