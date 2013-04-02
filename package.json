@@ -11,7 +11,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "git://github.com/johngeorgewright/coffee-templates-express.git"
+    "url": "git://github.com/johngeorgewright/coffee-views.git"
   },
   "keywords": [
     "coffee",
