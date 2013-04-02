@@ -1,7 +1,7 @@
 {
   "name": "coffee-views",
-  "version": "0.0.0",
-  "description": "An express.js view engine for coffee-templates",
+  "version": "0.0.1",
+  "description": "An OOP extension to coffee-templates",
   "main": "index.coffee",
   "scripts": {
     "test": "nodeunit test"
@@ -14,6 +14,7 @@
     "coffee",
     "coffee-templates",
     "templates",
+    "oop templates",
     "express"
   ],
   "author": "John Wright <johngeorge.wright@gmail.com>",
@@ -31,3 +32,4 @@
     "underscore": "~1.4.4"
   }
 }
+

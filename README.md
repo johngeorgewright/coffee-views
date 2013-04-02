@@ -3,6 +3,11 @@ coffee-views
 
 Coffee Views is an extension to [coffee-templates](https://github.com/mikesmullin/coffee-templates) adding template inheritance and an express.js engine.
 
+Installation
+------------
+
+`npm i --save coffee-views`
+
 Example
 -------
 
