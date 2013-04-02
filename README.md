@@ -76,5 +76,13 @@ app.get '/', (req, res)->
 Inheriting methods
 ------------------
 
-An important factor to note is that the 
+Due to the nature of coffee-templates, CoffeeScript's native `super()` method cannot be used. Instead, you can use a `parent([methodName])` function:
+
+```coffee
+class MyExtendedView extends MyView
+  content: ->
+    literal parent 'content'
+    div ->
+      p 'This is an extension to "MyView"'
+```
 
