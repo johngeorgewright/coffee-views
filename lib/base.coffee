@@ -1,37 +1,53 @@
 CoffeeTemplate = require 'coffee-templates'
 _              = require 'underscore'
 
+# A class used only for modifying a template's
+# global functions.
 class TemplateGlobals
-  constructor: (@proto)->
+  # The constructor takes a prototype of the
+  # coffee view object.
+  # @param proto {Object} The coffee view object prototype
+  constructor: (@_cvProto, ins)->
+    # The instance default is the prototype
+    @_cvContext = ins ? @_cvProto
 
+  # The parent method is added a global function
+  # that will call the view's super method.
+  # @param method {String} The super's method name
+  # @return mixed
   parent: (method)->
-    args = Array::slice.call arguments, 1
-    method = @proto.constructor.__super__[method]
-    method.apply @proto, args
+    # The super prototype
+    sup = @_cvProto.constructor.__super__
+    # Find the parent method
+    method = sup[method]
+    # Extra template globals
+    globals = new TemplateGlobals sup, @_cvContext
+    # Create a new template renderer
+    renderer = new CoffeeTemplate globals: globals
+    # Render the template
+    renderer.render method, @_cvContext
 
 # Re-writes all methods of an object so that
 # the methods will compile a template.
-bind = (proto, ins)->
-  ins ?= proto
+# @param proto {Object} The view's prototype
+# @param ins {Object} The context which you want to bind the functions to
+bind = (proto)->
   # Loop through every method in the proto
   for method in _(proto).methods()
     # Unless the method is the constructor or
     # has already been bound...
-    unless method is 'constructor' or proto[method].cvBound
-      globals = new TemplateGlobals proto
-      # Create a new template renderer
-      template = new CoffeeTemplate globals: globals
-      # The method
-      fn = proto[method]
-      # Re-write the method
-      proto[method] = -> template.render fn, ins
-      # Add a property to the new method that
-      # can be used to prevent binding the
-      # same method more than once.
-      proto[method].cvBound = yes
-  # Bind the super's prototype if a super exists
-  sup = proto.constructor.__super__
-  bind sup, ins if sup
+    unless method is 'constructor'
+      do (proto, method)->
+        # The original method
+        fn = proto[method]
+        # Re-write the method
+        proto[method] = ->
+          # Extra template globals
+          globals = new TemplateGlobals proto
+          # Create a new template renderer
+          template = new CoffeeTemplate globals: globals
+          # Render the template
+          template.render fn, proto
 
 module.exports = class Base
   constructor: (options)->
