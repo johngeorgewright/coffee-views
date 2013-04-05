@@ -6,6 +6,28 @@ module.exports =
     @renderer = new Renderer()
     done()
 
+  '#doctype()':
+
+    setUp: (done)->
+      @doctype = '<!doctype html>'
+      done()
+
+    'it will return a HTML5 doctype when passed 5': (test)->
+      html = @renderer.doctype 5
+      test.equal html, @doctype
+      test.done()
+
+    'it will add the doctype to the #_content property': (test)->
+      @renderer.doctype 5
+      test.equal @renderer._content, @doctype
+      test.done()
+
+    'it will add the doctype to the beginning of the #_content property': (test)->
+      @renderer._content = 'mung'
+      @renderer.doctype 5
+      test.equal @renderer._content, @doctype + 'mung'
+      test.done()
+
   '#tag()':
 
     'it should return a closed tag when no content is supplied': (test)->
@@ -33,13 +55,28 @@ module.exports =
       test.equal html, '<test><mung/></test>'
       test.done()
 
-  '#render()':
+  '#compile()':
 
     'will render some functions as tags': (test)->
+      result = '<html><head></head><body></body></html>'
       html = @renderer.compile ->
         @html ->
           @head ->
           @body ->
-      test.equal html, '<html><head></head><body></body></html>'
+      test.equal @renderer._content, result, 'it did not add the content to the #_content property'
+      test.equal html, result, 'it did not return the #_content property'
+      test.done()
+
+    'will use a method from it\'s own instance when a string is passed as the first argument': (test)->
+      result = '<html><head></head><body></body></html>'
+      class Template extends Renderer
+        render: ->
+          @html ->
+            @head ->
+            @body ->
+      template = new Template()
+      html = template.compile 'render'
+      test.equal template._content, result, 'it did not add the content to the #_content property'
+      test.equal html, result, 'it did not return the #_content property'
       test.done()
 

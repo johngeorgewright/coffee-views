@@ -11,8 +11,9 @@ module.exports = class Renderer
     doctype
 
   compile: (fn)->
-    args = Array::slice.call arguments, 1
     @_content = ''
+    args = Array::slice.call arguments, 1
+    fn = @[fn] if typeof(fn) is 'string'
     fn.apply this, args
     @_content
 
