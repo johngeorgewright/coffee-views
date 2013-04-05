@@ -1,7 +1,7 @@
 coffee-views
 ============
 
-Coffee Views is an extension to [coffee-templates](https://github.com/mikesmullin/coffee-templates) adding template inheritance and an express.js engine.
+Coffee Views was inspired by [coffee-templates](https://github.com/mikesmullin/coffee-templates) and [coffeekup](https://github.com/gradus/coffeecup) to add template inheritance to CoffeeScript templating.
 
 Installation
 ------------
@@ -18,22 +18,22 @@ Example
 
 module.exports = class Layout extends Base
   
-  # The #render() method is automatically called when rendering the view in express
-  render: ->
-    doctype 5
-    html ->
+  # The #render() method is automatically called when rendering the view in express.
+  render: (options)->
+    @doctype 5
+    @html ->
 
-      head ->
-        title @title
-        @stylesheets()
+      @head ->
+        @title options.title
+        @stylesheetBlock()
 
-      body ->
-        h1 @title
-        @content()
+      @body ->
+        @h1 options.title
+        @contentBlock()
 
-  stylesheets: ->
+  stylesheetBlock: ->
   
-  content: ->
+  contentBlock: ->
 ```
 
 ```coffee
@@ -42,16 +42,16 @@ module.exports = class Layout extends Base
 Layout = require './layout'
 
 module.exports = class MyView extends Layout
-  content: ->
-    div ->
-      p 'This is my view'
+  contentBlock: ->
+    @div ->
+      @p 'This is my view'
 ```
 
 ```coffee
 View = require './views/myview'
-view = new View title: 'My Site'
+view = new View()
 
-console.log view.render()
+console.log view.compile 'render', title: 'My Site'
 ###
 <!doctype html>
 <html>
@@ -98,13 +98,13 @@ Just use CoffeeScript's native `super()` method to return a rendered parent meth
 
 ```coffee
 class MyExtendedView extends MyView
-  content: ->
-    literal super()
-    div ->
-      p 'This is an extension to "MyView"'
+  contentBlock: ->
+    super
+    @div ->
+      @p 'This is an extension to "MyView"'
 
-view = new MyExtendedView title: 'My extended view'
-console.log view.render()
+view = new MyExtendedView() 
+console.log view.compile 'render', title: 'My extended view'
 ###
 <!doctype html>
 <html>
@@ -138,20 +138,20 @@ function Layout(){}
 module.exports = Layout;
 util.inherits(Layout, Base);
 
-Layout.prototype.render = function(){
-  doctype(5);
-  head(function(){
-    title(this.title);
-    this.stylesheets();
+Layout.prototype.render = function(options){
+  this.doctype(5);
+  this.head(function(){
+    this.title(options.title);
+    this.stylesheetBlock();
   });
-  body(function(){
-    h1(this.title);
-    this.content();
+  this.body(function(){
+    this.h1(options.title);
+    this.contentBlock();
   });
 };
 
-Layout.prototype.stylesheets = function(){};
-Layout.prototype.content = function(){};
+Layout.prototype.stylesheetBlock = function(){};
+Layout.prototype.contentBlock = function(){};
 ```
 
 ```javascript
@@ -163,9 +163,9 @@ function MyExtendedView(){}
 module.exports = MyExtendedView;
 util.inherits(MyExtendedView, Layout);
 
-MyView.prototype.content = function(){
-  div(function(){
-    p('My content');
+MyView.prototype.contentBlock = function(){
+  this.div(function(){
+    this.p('My content');
   });
 };
 ```
@@ -179,13 +179,10 @@ function ExtendedView(){}
 module.exports = ExtendedView;
 util.inherits(ExtendedView, MyView);
 
-ExtendedView.prototype.content = function(){
-  // When overriding methods, you must not refer to the base
-  // class directly. This will not work due to the nature of
-  // coffee-templates. Therefore, refer to the "super_" property.
-  literal(ExtendedView.super_.prototype.content.call(this));
-  div(function(){
-    p('Native extensions');
+ExtendedView.prototype.contentBlock = function(){
+  ExtendedView.super_.prototype.contentBlock.call(this);
+  this.div(function(){
+    this.p('Native extensions');
   });
 };
 ```
