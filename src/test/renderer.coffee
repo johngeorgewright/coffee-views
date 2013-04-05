@@ -36,7 +36,7 @@ module.exports =
   '#render()':
 
     'will render some functions as tags': (test)->
-      html = @renderer.render ->
+      html = @renderer.compile ->
         @html ->
           @head ->
           @body ->

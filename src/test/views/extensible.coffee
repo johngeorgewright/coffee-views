@@ -1,7 +1,7 @@
 WithParameters = require './with-parameters'
 
 module.exports = class Extensible extends WithParameters
-  head: ->
-    literal super()
-    meta encoding: 'utf8'
+  headBlock: ->
+    super
+    @meta encoding:'utf8'
 

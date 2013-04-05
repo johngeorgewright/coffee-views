@@ -1,10 +1,7 @@
-CoffeeTemplate = require 'coffee-templates'
-engine         = new CoffeeTemplate()
-
 module.exports = (path, options, callback)->
   Template = require path
-  template = new Template options
-  html     = template.render()
+  template = new Template()
+  html     = template.render options
 
   callback null, html
 

@@ -1,8 +1,7 @@
-CoffeeTemplate = require 'coffee-templates'
-engine         = require '../lib/engine'
-express        = require 'express'
-path           = require 'path'
-sinon          = require 'sinon'
+engine  = require '../lib/engine'
+express = require 'express'
+path    = require 'path'
+sinon   = require 'sinon'
 
 exports['#engine()'] =
 
