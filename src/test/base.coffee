@@ -1,9 +1,9 @@
-Renderer = require '../lib/renderer'
+Base = require '../lib/base'
 
 module.exports =
 
   setUp: (done)->
-    @renderer = new Renderer()
+    @base = new Base()
     done()
 
   '#doctype()':
@@ -13,45 +13,45 @@ module.exports =
       done()
 
     'it will return a HTML5 doctype when passed 5': (test)->
-      html = @renderer.doctype 5
+      html = @base.doctype 5
       test.equal html, @doctype
       test.done()
 
     'it will add the doctype to the #_content property': (test)->
-      @renderer.doctype 5
-      test.equal @renderer._content, @doctype
+      @base.doctype 5
+      test.equal @base._content, @doctype
       test.done()
 
     'it will add the doctype to the beginning of the #_content property': (test)->
-      @renderer._content = 'mung'
-      @renderer.doctype 5
-      test.equal @renderer._content, @doctype + 'mung'
+      @base._content = 'mung'
+      @base.doctype 5
+      test.equal @base._content, @doctype + 'mung'
       test.done()
 
   '#tag()':
 
     'it should return a closed tag when no content is supplied': (test)->
-      html = @renderer.tag 'mung'
+      html = @base.tag 'mung'
       test.equal html, '<mung/>'
       test.done()
 
     'if the 2nd parameter is an object, it will be turned in to HTML attributes': (test)->
-      html = @renderer.tag 'tag', mung: 'face'
+      html = @base.tag 'tag', mung: 'face'
       test.equal html, '<tag mung="face"/>'
       test.done()
 
     'if the 2nd parameter is a string, it will be used as the tag\'s content': (test)->
-      html = @renderer.tag 'test', 'testies'
+      html = @base.tag 'test', 'testies'
       test.equal html, '<test>testies</test>'
       test.done()
 
     'the combination of object attributes and content can also be used': (test)->
-      html = @renderer.tag 'test', {mung: 'face'}, 'testies'
+      html = @base.tag 'test', {mung: 'face'}, 'testies'
       test.equal html, '<test mung="face">testies</test>'
       test.done()
 
     'if the content is a function, then the returned content will be used': (test)->
-      html = @renderer.tag 'test', -> @tag 'mung'
+      html = @base.tag 'test', -> @tag 'mung'
       test.equal html, '<test><mung/></test>'
       test.done()
 
@@ -59,17 +59,17 @@ module.exports =
 
     'will render some functions as tags': (test)->
       result = '<html><head></head><body></body></html>'
-      html = @renderer.compile ->
+      html = @base.compile ->
         @html ->
           @head ->
           @body ->
-      test.equal @renderer._content, result, 'it did not add the content to the #_content property'
+      test.equal @base._content, result, 'it did not add the content to the #_content property'
       test.equal html, result, 'it did not return the #_content property'
       test.done()
 
     'will use a method from it\'s own instance when a string is passed as the first argument': (test)->
       result = '<html><head></head><body></body></html>'
-      class Template extends Renderer
+      class Template extends Base
         render: ->
           @html ->
             @head ->
@@ -88,8 +88,8 @@ module.exports =
                   return alert('yay');
                 }).call(this)</script>
         """
-      html = @renderer.coffeescript -> alert 'yay'
-      test.equal @renderer._content, result, 'it did not add the content to the #_content property'
+      html = @base.coffeescript -> alert 'yay'
+      test.equal @base._content, result, 'it did not add the content to the #_content property'
       test.equal html, result, 'it did not return the #_content property'
       test.done()
 
@@ -97,10 +97,10 @@ module.exports =
 
     'will add any content directly to the output string': (test)->
       result = '<html><body><mung/>tits, arse</body></html>'
-      html = @renderer.compile ->
+      html = @base.compile ->
         @html ->
           @body ->
             @lit '<mung/>tits, arse'
-      test.equal @renderer._content, result, 'it did not add the content to the #_content property'
+      test.equal @base._content, result, 'it did not add the content to the #_content property'
       test.done()
 
