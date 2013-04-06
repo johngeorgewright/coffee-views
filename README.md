@@ -209,3 +209,18 @@ console.log view.compile 'javascriptBlock'
 ###
 ```
 
+### The Literal Tag
+
+Using the `Renderer#lit()` method will just add any content to the output string:
+
+```coffee
+class MyView extends Base
+  contentBlock: ->
+    @lit '<wierdtag/> Mung'
+
+view = new MyView()
+console.log view.compile 'contentBlock'
+###
+<wierdtag/> Mung
+###
+

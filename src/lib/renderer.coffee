@@ -23,6 +23,10 @@ module.exports = class Renderer
     fn.apply this, args
     @_content
 
+  lit: (output)->
+    @_content += output
+    output
+
   tag: (name, attrs={}, content=false)->
     unless typeof(attrs) is 'object'
       content = attrs
