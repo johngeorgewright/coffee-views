@@ -93,3 +93,14 @@ module.exports =
       test.equal html, result, 'it did not return the #_content property'
       test.done()
 
+  '#lit()':
+
+    'will add any content directly to the output string': (test)->
+      result = '<html><body><mung/>tits, arse</body></html>'
+      html = @renderer.compile ->
+        @html ->
+          @body ->
+            @lit '<mung/>tits, arse'
+      test.equal @renderer._content, result, 'it did not add the content to the #_content property'
+      test.done()
+
