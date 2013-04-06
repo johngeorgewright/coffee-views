@@ -80,3 +80,16 @@ module.exports =
       test.equal html, result, 'it did not return the #_content property'
       test.done()
 
+  '#coffeescript()':
+
+    'will create a <script> tag compiling a CoffeeScript function to JavaScript': (test)->
+      result = """
+        <script>(function () {
+                  return alert('yay');
+                }).call(this)</script>
+        """
+      html = @renderer.coffeescript -> alert 'yay'
+      test.equal @renderer._content, result, 'it did not add the content to the #_content property'
+      test.equal html, result, 'it did not return the #_content property'
+      test.done()
+

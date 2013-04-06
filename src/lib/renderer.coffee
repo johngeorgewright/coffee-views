@@ -10,6 +10,12 @@ module.exports = class Renderer
     @_content = doctype + @_content
     doctype
 
+  coffeescript: (attrs={}, fn)->
+    if typeof(attrs) is 'function'
+      fn = attrs
+      attrs = {}
+    @script attrs, "(#{fn}).call(this)"
+
   compile: (fn)->
     @_content = ''
     args = Array::slice.call arguments, 1
