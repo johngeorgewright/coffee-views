@@ -190,14 +190,14 @@ ExtendedView.prototype.contentBlock = function(){
 Extra Tags
 ----------
 
-### The CoffeeScript Tag
+### The Script Tag
 
-Using the `Renderer#coffeescript()` function will create a `<script>` tag with compiled JavaScript:
+Using the `Renderer#script()` function will create a `<script>` tag with the passed function as a string.
 
 ```coffee
 class MyView extends Base
   javascriptBlock: ->
-    @coffeescript ->
+    @script ->
       alert 'Yay! CoffeeScript'
 
 view = new MyView()
