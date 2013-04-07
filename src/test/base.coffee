@@ -80,7 +80,7 @@ module.exports =
       test.equal html, result, 'it did not return the #_content property'
       test.done()
 
-  '#coffeescript()':
+  '#script()':
 
     'will create a <script> tag compiling a CoffeeScript function to JavaScript': (test)->
       result = """
@@ -88,7 +88,7 @@ module.exports =
                   return alert('yay');
                 }).call(this)</script>
         """
-      html = @base.coffeescript -> alert 'yay'
+      html = @base.script -> alert 'yay'
       test.equal @base._content, result, 'it did not add the content to the #_content property'
       test.equal html, result, 'it did not return the #_content property'
       test.done()
