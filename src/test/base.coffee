@@ -111,3 +111,17 @@ module.exports =
       test.equal @base._content, result, 'it did not add the content to the #_content property'
       test.done()
 
+  '#unlit()':
+
+    'will escape HTML when the #safeOutput is true': (test)->
+      @base.safeOutput = yes
+      html = @base.unlit '<unlit>'
+      test.equal html, '&lt;unlit&gt;'
+      test.done()
+
+    'will just display a literal value when #safeOutput is false': (test)->
+      @base.safeOutput = no
+      html = @base.unlit '<unlit>'
+      test.equal html, '<unlit>'
+      test.done()
+
