@@ -1,8 +1,17 @@
+regExpHelper = require './regexp'
+
 module.exports = class Base
 
   constructor: ->
     @_content = ''
     @doctypes = 5: '<!doctype html>'
+    @safeOutput = yes
+    @specialChars =
+      '&': '&amp;'
+      '<': '&lt;'
+      '>': '&gt;'
+      '"': '&quot;'
+      "'": '&#39;'
 
   doctype: (version=5)->
     throw new ReferenceError "Doctype verision \"#{version}\" does not exist" unless @doctypes[version]?
@@ -14,7 +23,11 @@ module.exports = class Base
     if typeof(attrs) is 'function'
       fn = attrs
       attrs = {}
-    @tag 'script', attrs, "(#{fn}).call(this)"
+    safeOutput = @safeOutput
+    @safeOutput = no
+    tag = @tag 'script', attrs, "(#{fn}).call(this)"
+    @safeOutput = safeOutput
+    tag
 
   compile: (fn)->
     @_content = ''
@@ -27,6 +40,17 @@ module.exports = class Base
     @_content += output
     output
 
+  unlit: (output)->
+    output = if @safeOutput then @escape output else output
+    @lit output
+
+  escape: (str)->
+    keys = Object.keys @specialChars
+    keys = (regExpHelper.escape key for key in keys)
+    keys = keys.join ''
+    regExp = new RegExp "[#{keys}]", 'g'
+    str.replace regExp, (char)=> @specialChars[char] or char
+
   tag: (name, attrs={}, content=false)->
     unless typeof(attrs) is 'object'
       content = attrs
@@ -38,11 +62,13 @@ module.exports = class Base
       if val
         html += ' ' + key
         unless typeof(val) is 'boolean'
-          html += "=\"#{val}\""
+          html += "=\"#{if @safeOutput then @escape val else val}\""
 
     if typeof(content) is 'function'
       renderer = new @constructor()
       content = renderer.compile content
+    else if typeof(content) is 'string' and @safeOutput
+      content = @escape content
 
     if content is false
       html += '/>'

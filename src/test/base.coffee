@@ -28,6 +28,13 @@ module.exports =
       test.equal @base._content, @doctype + 'mung'
       test.done()
 
+  '#escape()':
+
+    'it should escape all HTML characters': (test)->
+      html = @base.escape '<mungface>\'Milk\' & "honey"</mungface>'
+      test.equal html, '&lt;mungface&gt;&#39;Milk&#39; &amp; &quot;honey&quot;&lt;/mungface&gt;'
+      test.done()
+
   '#tag()':
 
     'it should return a closed tag when no content is supplied': (test)->
@@ -116,5 +123,19 @@ module.exports =
           @body ->
             @lit '<mung/>tits, arse'
       test.equal @base._content, result, 'it did not add the content to the #_content property'
+      test.done()
+
+  '#unlit()':
+
+    'will escape HTML when the #safeOutput is true': (test)->
+      @base.safeOutput = yes
+      html = @base.unlit '<unlit>'
+      test.equal html, '&lt;unlit&gt;'
+      test.done()
+
+    'will just display a literal value when #safeOutput is false': (test)->
+      @base.safeOutput = no
+      html = @base.unlit '<unlit>'
+      test.equal html, '<unlit>'
       test.done()
 
