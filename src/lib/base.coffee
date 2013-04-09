@@ -10,7 +10,7 @@ module.exports = class Base
     @_content = doctype + @_content
     doctype
 
-  script: (attrs={}, fn)->
+  script: (attrs={}, fn='')->
     if typeof(attrs) is 'function'
       fn = attrs
       attrs = {}
@@ -52,12 +52,22 @@ module.exports = class Base
     @_content += html
     html
 
-  tags = 'a abbr address area article aside audio b base bdi bdo blockquote body br button canvas caption cite code col colgroup command data datagrid datalist dd del details dfn div dl dt em embed eventsource fieldset figcaption figure footer form h1 h2 h3 h4 h5 h6 head header hgroup hr html i iframe img ins input kbd keygen label legend li link mark map menu meta meter nav noscript object ol optgroup option output p param pre progress q ruby rp rt s samp section select small source span strong style sub summary sup table tbody td textarea tfoot th thead time title tr track u ul var video wbr'.split ' '
-
-  for tag in tags
+  openTags = 'a abbr address article aside audio b bdi bdo blockquote body button canvas caption cite code colgroup command data datagrid datalist dd del details dfn div dl dt em embed eventsource fieldset figcaption figure footer form h1 h2 h3 h4 h5 h6 head header hgroup html i iframe ins kbd keygen label legend li mark map menu meter nav noscript object ol optgroup option output p pre progress q ruby rp rt s samp section select small source span strong style sub summary sup table tbody td textarea tfoot th thead time title tr track u ul var video wbr'.split ' '
+  for tag in openTags
     do (tag)->
       Base::[tag] = ->
         args = Array::slice.call arguments
+        if args.length < 2 and typeof(args[0]) not in ['string', 'function']
+          args.push ''
+        args.unshift tag
+        @tag.apply this, args
+
+  closedTags = 'area base br col hr img input link meta param'.split ' '
+  for tag in closedTags
+    do (tag)->
+      Base::[tag] = ->
+        args = Array::slice.call arguments
+        args[1] = false
         args.unshift tag
         @tag.apply this, args
 

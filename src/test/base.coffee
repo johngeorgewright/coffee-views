@@ -55,6 +55,20 @@ module.exports =
       test.equal html, '<test><mung/></test>'
       test.done()
 
+  '#[tag]()':
+
+    'certain tags will be made open by default': (test)->
+      html = @base.i()
+      test.equal html, '<i></i>'
+      html = @base.i class:'icon-thumb'
+      test.equal html, '<i class="icon-thumb"></i>'
+      test.done()
+
+    'certain tags will be made closed by default': (test)->
+      html = @base.meta {name:'mung', content:'face'}, 'Mung Face'
+      test.equal html, '<meta name="mung" content="face"/>'
+      test.done()
+
   '#compile()':
 
     'will render some functions as tags': (test)->
