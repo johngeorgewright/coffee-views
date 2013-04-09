@@ -21,11 +21,11 @@ module.exports = class Base
 
   script: (attrs={}, fn='')->
     if typeof(attrs) is 'function'
-      fn = attrs
+      fn = "(#{attrs}).call(this)"
       attrs = {}
     safeOutput = @safeOutput
     @safeOutput = no
-    tag = @tag 'script', attrs, "(#{fn}).call(this)"
+    tag = @tag 'script', attrs, fn
     @safeOutput = safeOutput
     tag
 
