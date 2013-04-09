@@ -28,6 +28,13 @@ module.exports =
       test.equal @base._content, @doctype + 'mung'
       test.done()
 
+  '#escape()':
+
+    'it should escape all HTML characters': (test)->
+      html = @base.escape '<mungface>\'Milk\' & "honey"</mungface>'
+      test.equal html, '&lt;mungface&gt;&#39;Milk&#39; &amp; &quot;honey&quot;&lt;/mungface&gt;'
+      test.done()
+
   '#tag()':
 
     'it should return a closed tag when no content is supplied': (test)->

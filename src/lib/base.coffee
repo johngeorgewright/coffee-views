@@ -1,8 +1,16 @@
+regExpHelper = require './regexp'
+
 module.exports = class Base
 
   constructor: ->
     @_content = ''
     @doctypes = 5: '<!doctype html>'
+    @specialChars =
+      '&': '&amp;'
+      '<': '&lt;'
+      '>': '&gt;'
+      '"': '&quot;'
+      "'": '&#39;'
 
   doctype: (version=5)->
     throw new ReferenceError "Doctype verision \"#{version}\" does not exist" unless @doctypes[version]?
@@ -26,6 +34,13 @@ module.exports = class Base
   lit: (output)->
     @_content += output
     output
+
+  escape: (str)->
+    keys = Object.keys @specialChars
+    keys = (regExpHelper.escape key for key in keys)
+    keys = keys.join ''
+    regExp = new RegExp "[#{keys}]", 'g'
+    str.replace regExp, (char)=> @specialChars[char] or char
 
   tag: (name, attrs={}, content=false)->
     unless typeof(attrs) is 'object'
