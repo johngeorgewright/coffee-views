@@ -73,7 +73,7 @@ module.exports = class Base
     keys = (regExpHelper.escape key for key in keys)
     keys = keys.join ''
     regExp = new RegExp "[#{keys}]", 'g'
-    str.replace regExp, (char)=> @specialChars[char] or char
+    str.toString().replace regExp, (char)=> @specialChars[char] or char
 
   tag: (name, attrs={}, content=false)->
     unless typeof(attrs) is 'object'
