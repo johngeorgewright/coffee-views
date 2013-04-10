@@ -154,6 +154,20 @@ module.exports =
       test.equal html, result
       test.done()
 
+    'it will act as a normal tag once the "type" attribute is anything but "text/javascript"': (test)->
+      result = """
+        <script type="text/javascript">(function () {
+                  return alert('yep');
+                }).call(this)</script>
+        """
+      html = @base.script {type:'text/javascript'}, -> alert 'yep'
+      test.equal html, result
+      result = '<script type="text/x-template"><p>Yeh!</p></script>'
+      html = @base.script {type:'text/x-template'}, ->
+        @p 'Yeh!'
+      test.equal html, result
+      test.done()
+
   '#lit()':
 
     'will add any content directly to the output string': (test)->
