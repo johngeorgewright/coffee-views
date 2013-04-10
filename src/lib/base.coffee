@@ -19,13 +19,33 @@ module.exports = class Base
     @_content = doctype + @_content
     doctype
 
-  script: (attrs={}, fn='')->
-    if typeof(attrs) is 'function'
-      fn = "(#{attrs}).call(this)"
+  script: (attrs={}, args=[], content='')->
+    if attrs instanceof Array
+      content = args
+      args = attrs
       attrs = {}
+    else if typeof(attrs) is 'function'
+      content = attrs
+      args = []
+      attrs = {}
+    unless args instanceof Array
+      content = args
+      args = []
+    if typeof(content) is 'function'
+      content = "(#{content})"
+      if args.length > 0
+        for arg, i in args
+          switch typeof arg
+            when 'string' then args[i] = "\"#{arg}\""
+            when 'function' then args[i] = arg.toString()
+            when 'object' then args[i] = JSON.stringify arg
+        content += ".call(this, #{args.join ', '})"
+      else
+        content += '.call(this)'
+
     safeOutput = @safeOutput
     @safeOutput = no
-    tag = @tag 'script', attrs, fn
+    tag = @tag 'script', attrs, content
     @safeOutput = safeOutput
     tag
 

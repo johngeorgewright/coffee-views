@@ -114,6 +114,46 @@ module.exports =
       test.equal html, result, 'it did not return the #_content property'
       test.done()
 
+    'it can have server variables passed as arguments': (test)->
+      result = """
+        <script>(function (name, details, fn) {
+                  return fn(alert("Hey! " + name + " you live in " + details.area));
+                }).call(this, "mung", {"area":"Newbury"}, function () {
+                  return alert('Hurrah!');
+                })</script>
+        """
+      serverVar1 = 'mung'
+      serverVar2 = area: 'Newbury'
+      serverVar3 = -> alert 'Hurrah!'
+      html = @base.script [serverVar1, serverVar2, serverVar3], (name, details, fn)->
+        fn alert "Hey! #{name} you live in #{details.area}"
+      test.equal html, result
+      test.done()
+
+    'it can have attributes just like any other tag': (test)->
+      result = """
+        <script async>(function (name, details, fn) {
+                  return fn(alert("Hey! " + name + " you live in " + details.area));
+                }).call(this, "mung", {"area":"Newbury"}, function () {
+                  return alert('Hurrah!');
+                })</script>
+        """
+      serverVar1 = 'mung'
+      serverVar2 = area: 'Newbury'
+      serverVar3 = -> alert 'Hurrah!'
+      html = @base.script {async:yes}, [serverVar1, serverVar2, serverVar3], (name, details, fn)->
+        fn alert "Hey! #{name} you live in #{details.area}"
+      test.equal html, result
+      result = """
+        <script async>(function () {
+                  return alert('Hurray!');
+                }).call(this)</script>
+        """
+      html = @base.script {async:yes}, ->
+        alert 'Hurray!'
+      test.equal html, result
+      test.done()
+
   '#lit()':
 
     'will add any content directly to the output string': (test)->
