@@ -28,5 +28,8 @@
     "sinon": "~1.6.0",
     "express": "~3.1.1",
     "nodeunit": "~0.8.0"
+  },
+  "dependencies": {
+    "ccss": "~0.1.2-1"
   }
 }

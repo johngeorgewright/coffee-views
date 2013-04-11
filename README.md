@@ -190,14 +190,14 @@ ExtendedView.prototype.contentBlock = function(){
 Extra Tags
 ----------
 
-### The Script Tag
+### The JavaScript Tag
 
-Using the `Renderer#script()` function will create a `<script>` tag with the passed function as a string.
+Using the `#javascript()` function will create a `<script>` tag with the passed function as a string.
 
 ```coffee
 class MyView extends Base
   javascriptBlock: ->
-    @script ->
+    @javascript ->
       alert 'Yay! CoffeeScript'
 
 view = new MyView()
@@ -209,9 +209,33 @@ console.log view.compile 'javascriptBlock'
 ###
 ```
 
+### CSS
+
+The `#css()` method renders as [CCSS](https://github.com/aeosynth/ccss). Pass an object and it will create a `<style>` tag.
+
+```coffee
+class MyView extends Base
+  stylesheetBlock: ->
+    @css
+      form:
+        input:
+          padding: '5px'
+          border: '1px solid'
+
+view = new MyView()
+console.log view.compile 'stylesheetBlock'
+###
+<style>form input {
+  padding: 5px;
+  border: 1px solid;
+}
+</style>
+###
+```
+
 ### The Literal Tag
 
-Using the `Renderer#lit()` method will just add any content to the output string:
+Using the `#lit()` method will just add any content to the output string:
 
 ```coffee
 class MyView extends Base
@@ -223,4 +247,29 @@ console.log view.compile 'contentBlock'
 ###
 <wierdtag/> Mung
 ###
+```
+
+### The Unliteral Tag
+
+Using the `#unlit()` method will escape content *if* **#safeOutput** is set to **true** (which it is by default).
+
+```coffee
+class MyView extends Base
+  contentBlock: ->
+    @unlit '<wierdtag/> Mung'
+
+view = new MyView()
+console.log view.compile 'contentBlock'
+###
+&lt;wierdtag/&gt; Mung
+###
+```
+
+### Escaping content on the fly
+
+If you want to make sure something is escaped, go ahead and use the #escape() method:
+
+```coffee
+escapedContent = @escape '<mung>' # => '&lt;mung&gt;'
+```
 

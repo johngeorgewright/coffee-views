@@ -101,7 +101,7 @@ module.exports =
       test.equal html, result, 'it did not return the #_content property'
       test.done()
 
-  '#script()':
+  '#javascript()':
 
     'will create a <script> tag compiling a CoffeeScript function to JavaScript': (test)->
       result = """
@@ -109,7 +109,7 @@ module.exports =
                   return alert('yay');
                 }).call(this)</script>
         """
-      html = @base.script -> alert 'yay'
+      html = @base.javascript -> alert 'yay'
       test.equal @base._content, result, 'it did not add the content to the #_content property'
       test.equal html, result, 'it did not return the #_content property'
       test.done()
@@ -125,7 +125,7 @@ module.exports =
       serverVar1 = 'mung'
       serverVar2 = area: 'Newbury'
       serverVar3 = -> alert 'Hurrah!'
-      html = @base.script [serverVar1, serverVar2, serverVar3], (name, details, fn)->
+      html = @base.javascript [serverVar1, serverVar2, serverVar3], (name, details, fn)->
         fn alert "Hey! #{name} you live in #{details.area}"
       test.equal html, result
       test.done()
@@ -141,7 +141,7 @@ module.exports =
       serverVar1 = 'mung'
       serverVar2 = area: 'Newbury'
       serverVar3 = -> alert 'Hurrah!'
-      html = @base.script {async:yes}, [serverVar1, serverVar2, serverVar3], (name, details, fn)->
+      html = @base.javascript {async:yes}, [serverVar1, serverVar2, serverVar3], (name, details, fn)->
         fn alert "Hey! #{name} you live in #{details.area}"
       test.equal html, result
       result = """
@@ -149,23 +149,39 @@ module.exports =
                   return alert('Hurray!');
                 }).call(this)</script>
         """
-      html = @base.script {async:yes}, ->
+      html = @base.javascript {async:yes}, ->
         alert 'Hurray!'
       test.equal html, result
       test.done()
 
-    'it will act as a normal tag once the "type" attribute is anything but "text/javascript"': (test)->
+  '#css()':
+
+    'it will render content as CCSS': (test)->
       result = """
-        <script type="text/javascript">(function () {
-                  return alert('yep');
-                }).call(this)</script>
+        <style>form input {
+          padding: 5px;
+        }
+        </style>
         """
-      html = @base.script {type:'text/javascript'}, -> alert 'yep'
-      test.equal html, result
-      result = '<script type="text/x-template"><p>Yeh!</p></script>'
-      html = @base.script {type:'text/x-template'}, ->
-        @p 'Yeh!'
-      test.equal html, result
+      css = @base.css
+        form:
+          input:
+            padding: '5px'
+      test.equal css, result
+      test.done()
+
+    'it can take attributes like any other tag': (test)->
+      result = """
+        <style id="mung">form input {
+          padding: 5px;
+        }
+        </style>
+        """
+      css = @base.css {id:'mung'},
+        form:
+          input:
+            padding: '5px'
+      test.equal css, result
       test.done()
 
   '#lit()':
