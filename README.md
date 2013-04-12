@@ -207,10 +207,29 @@ class MyView extends Base
 view = new MyView()
 console.log view.compile 'javascriptBlock'
 ###
-<script>(function () {
-          alert('Yay! CoffeeScript!');
-        }).call(this)</script>
+<script>
+(function () {
+  alert('Yay! CoffeeScript!');
+}).call(this)
+</script>
 ###
+```
+
+You can also pass server variables through to your client code:
+
+```coffee
+class MyView extends Base
+  javascriptBlock: (options)->
+    @javascript [options.username], (username)->
+      alert "Your name is #{username}. Lucky you. *snigger*"
+```
+...
+```html
+<script>
+(function(username){
+  alert('Your name is ' + username + '. Lucky you. *snigger*');
+}).call('Craig David')
+</script>
 ```
 
 ### CSS
