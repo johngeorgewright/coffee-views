@@ -220,15 +220,36 @@ You can also pass server variables through to your client code:
 ```coffee
 class MyView extends Base
   javascriptBlock: (options)->
+
+    # Assuming "options" is {username:'Craig David'}
+
     @javascript [options.username], (username)->
       alert "Your name is #{username}. Lucky you. *snigger*"
+
+    @javascript [options], (options)->
+      alert "Name: #{options.name}"
+
+    @javascript [-> 'Craig David'], (getName)->
+      alert "getting name... #{getName()}"
 ```
-...
+... will produce ...
 ```html
 <script>
 (function(username){
   alert('Your name is ' + username + '. Lucky you. *snigger*');
 }).call(this, 'Craig David')
+</script>
+
+<script>
+(function(options){
+  alert('Name: ' + options.name);
+}).call(this, {username:'Craig David'});
+</script>
+
+<script>
+(function(getName){
+  alert('getting name... ' + getName());
+}).call(this, function(){ return 'Craig David'; })
 </script>
 ```
 
