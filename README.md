@@ -21,7 +21,7 @@ module.exports = class Layout extends Base
   # The #render() method is automatically called when rendering the view in express.
   render: (options)->
     @doctype 5
-    @html ->
+    @html {lang:'en'}, ->
 
       @head ->
         @title options.title
@@ -32,6 +32,7 @@ module.exports = class Layout extends Base
         @contentBlock()
 
   stylesheetBlock: ->
+    @link rel:'stylesheet', href:'/css/main.css'
   
   contentBlock: ->
 ```
@@ -50,15 +51,17 @@ module.exports = class MyView extends Layout
 ```coffee
 View = require './views/myview'
 view = new View()
-
 console.log view.compile 'render', title: 'My Site'
 ```
 
+... will produce ...
+
 ```html
 <!doctype html>
-<html>
+<html lang="en">
   <head>
     <title>My Site</title>
+    <link rel="stylesheet" href="/css/main.css"/>
   </head>
   <body>
     <h1>My Site</h1>
