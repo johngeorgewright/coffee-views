@@ -11,8 +11,6 @@ Installation
 Example
 -------
 
-<div>
-<div style="float:left; width:32%; margin-right:1%;">
 ```coffee
 # views/layout.coffee
 
@@ -37,8 +35,7 @@ module.exports = class Layout extends Base
   
   contentBlock: ->
 ```
-</div>
-<div style="float:left; width:32%; margin-right:1%;">
+
 ```coffee
 # views/myview.coffee
 
@@ -49,14 +46,14 @@ module.exports = class MyView extends Layout
     @div ->
       @p 'This is my view'
 ```
-</div>
-<div style="float:right; width:32%;">
+
 ```coffee
 View = require './views/myview'
 view = new View()
 
 console.log view.compile 'render', title: 'My Site'
 ```
+
 ```html
 <!doctype html>
 <html>
@@ -71,9 +68,6 @@ console.log view.compile 'render', title: 'My Site'
   </body>
 </html>
 ```
-</div>
-<div style="clear:both;"></div>
-</div>
 
 Example 2 - in Express.js
 -------------------------
