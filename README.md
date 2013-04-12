@@ -228,7 +228,7 @@ class MyView extends Base
 <script>
 (function(username){
   alert('Your name is ' + username + '. Lucky you. *snigger*');
-}).call('Craig David')
+}).call(this, 'Craig David')
 </script>
 ```
 
