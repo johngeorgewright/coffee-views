@@ -28,6 +28,25 @@ module.exports =
       test.equal @base._content, @doctype + 'mung'
       test.done()
 
+  '#comment()':
+
+    'it will display a HTML comment': (test)->
+      html = @base.comment 'This is a comment'
+      test.equal html, '<!-- This is a comment -->'
+      test.done()
+
+  '#ie()':
+
+    'it will create an IE conditional comment': (test)->
+      html = @base.ie 'IE only'
+      test.equal html, '<!--[if IE]>IE only<[endif]-->'
+      test.done()
+
+    'it can specify a version': (test)->
+      html = @base.ie 6, 'IE 6 only'
+      test.equal html, '<!--[if IE 6]>IE 6 only<[endif]-->'
+      test.done()
+
   '#escape()':
 
     'it should escape all HTML characters': (test)->

@@ -3,6 +3,14 @@ ccss = require 'ccss'
 
 module.exports = class Base
 
+  contentCreator = (content)->
+    if typeof(content) is 'function'
+      renderer = new @constructor()
+      content = renderer.compile content
+    else if typeof(content) is 'string' and @safeOutput
+      content = @escape content
+    content
+
   constructor: ->
     @_content = ''
     @doctypes = 5: '<!doctype html>'
@@ -20,6 +28,9 @@ module.exports = class Base
     @_content = doctype + @_content
     doctype
 
+  comment: (content='')->
+    "<!-- #{contentCreator.call this, content} -->"
+
   css: (attrs, content={})->
     if arguments.length < 2
       content = attrs
@@ -29,6 +40,14 @@ module.exports = class Base
     tag = @style attrs, css
     @safeOutput = safeOutput
     tag
+
+  ie: (version=null, content='')->
+    if arguments.length < 2
+      content = version
+      version = ''
+    else
+      version = ' ' + version
+    "<!--[if IE#{version}]>#{contentCreator.call this, content}<[endif]-->"
 
   javascript: (attrs={}, args=[], content='')->
     if attrs instanceof Array
@@ -94,11 +113,7 @@ module.exports = class Base
         unless typeof(val) is 'boolean'
           html += "=\"#{if @safeOutput then @escape val else val}\""
 
-    if typeof(content) is 'function'
-      renderer = new @constructor()
-      content = renderer.compile content
-    else if typeof(content) is 'string' and @safeOutput
-      content = @escape content
+    content = contentCreator.call this, content
 
     if content is false
       html += '/>'
