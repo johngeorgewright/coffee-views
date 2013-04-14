@@ -317,3 +317,22 @@ If you want to make sure something is escaped, go ahead and use the #escape() me
 escapedContent = @escape '<mung>' # => '&lt;mung&gt;'
 ```
 
+### Comments
+
+HTML comments.
+
+```coffee
+@comment 'Here\'a a comment'
+@comment ->
+  @p 'I\'ve been a commented out'
+```
+
+### IE Specific comments
+
+```coffee
+@ie ->
+  @link rel:'stylesheet', href:'ie.css'
+@ie 7, ->
+  @link rel:'stylesheet', href:'ie7.css'
+```
+
