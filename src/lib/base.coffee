@@ -111,6 +111,7 @@ module.exports = class Base
       if val
         html += ' ' + key
         unless typeof(val) is 'boolean'
+          val = val.join ' ' if val instanceof Array
           html += "=\"#{if @safeOutput then @escape val else val}\""
 
     content = contentCreator.call this, content

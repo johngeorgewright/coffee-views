@@ -81,6 +81,11 @@ module.exports =
       test.equal html, '<test><mung/></test>'
       test.done()
 
+    'if an array is passed as an attribute value, it will be joined with spaces': (test)->
+      html = @base.tag 'test', {brungle:['mung', 'face']}
+      test.equal html, '<test brungle="mung face"/>'
+      test.done()
+
   '#[tag]()':
 
     'certain tags will be made open by default': (test)->
