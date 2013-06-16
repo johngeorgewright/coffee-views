@@ -1,3 +1,4 @@
+path = require 'path'
 Xml = require '../lib/xml'
 
 module.exports =
@@ -100,5 +101,12 @@ module.exports =
       @xml.safeOutput = no
       html = @xml.unlit '<unlit>'
       test.equal html, '<unlit>'
+      test.done()
+
+  '#partial()':
+
+    'it will compile another view inside the current one': (test) ->
+      html = @xml.partial path.join __dirname, 'views', 'basic'
+      test.equal html, '<!doctype html><html><head></head><body></body></html>'
       test.done()
 

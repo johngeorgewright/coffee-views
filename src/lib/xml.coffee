@@ -1,11 +1,11 @@
+Base = require './base'
 regExpHelper = require './regexp'
 util = require './util'
 
-module.exports = class Xml
+module.exports = class Xml extends Base
 
   constructor: ->
-    @_content = ''
-    @safeOutput = yes
+    Base.apply this, arguments
     @specialChars =
       '&': '&amp;'
       '<': '&lt;'
@@ -20,28 +20,6 @@ module.exports = class Xml
 
   comment: (content='')->
     "<!-- #{util.contentCreator.call this, content} -->"
-
-  compile: (fn)->
-    @_content = ''
-    args = Array::slice.call arguments, 1
-    fn = @[fn] if typeof(fn) is 'string'
-    fn.apply this, args
-    @_content
-
-  lit: (output)->
-    @_content += output
-    output
-
-  unlit: (output)->
-    output = if @safeOutput then @escape output else output
-    @lit output
-
-  escape: (str)->
-    keys = Object.keys @specialChars
-    keys = (regExpHelper.escape key for key in keys)
-    keys = keys.join ''
-    regExp = new RegExp "[#{keys}]", 'g'
-    str.toString().replace regExp, (char)=> @specialChars[char] or char
 
   tag: (name, attrs={}, content=false)->
     unless typeof(attrs) is 'object'
