@@ -14,9 +14,9 @@ Example
 ```coffee
 # views/layout.coffee
 
-{Base} = require 'coffee-views'
+{Html} = require 'coffee-views'
 
-module.exports = class Layout extends Base
+module.exports = class Layout extends Html
   
   # The #render() method is automatically called when rendering the view in express.
   render: (options)->
@@ -135,12 +135,12 @@ There's a possibility you may want to use plain JavaScript instead of CoffeeScri
 
 ```javascript
 // layout.js
-var Base = require('coffee-views').Base,
+var Html = require('coffee-views').Html,
     util = require('util');
 
 function Layout(){}
 module.exports = Layout;
-util.inherits(Layout, Base);
+util.inherits(Layout, Html);
 
 Layout.prototype.render = function(options){
   this.doctype(5);
@@ -199,7 +199,7 @@ Extra Tags
 Using the `#javascript()` function will create a `<script>` tag with the passed function as a string.
 
 ```coffee
-class MyView extends Base
+class MyView extends Html
   javascriptBlock: ->
     @javascript ->
       alert 'Yay! CoffeeScript'
@@ -218,7 +218,7 @@ console.log view.compile 'javascriptBlock'
 You can also pass server variables through to your client code:
 
 ```coffee
-class MyView extends Base
+class MyView extends Html
   javascriptBlock: (options)->
 
     # Assuming "options" is {username:'Craig David'}
@@ -258,7 +258,7 @@ class MyView extends Base
 The `#css()` method renders as [CCSS](https://github.com/aeosynth/ccss). Pass an object and it will create a `<style>` tag.
 
 ```coffee
-class MyView extends Base
+class MyView extends Html
   stylesheetBlock: ->
     @css
       form:
@@ -282,7 +282,7 @@ console.log view.compile 'stylesheetBlock'
 Using the `#lit()` method will just add any content to the output string:
 
 ```coffee
-class MyView extends Base
+class MyView extends Html
   contentBlock: ->
     @lit '<wierdtag/> Mung'
 
@@ -298,7 +298,7 @@ console.log view.compile 'contentBlock'
 Using the `#unlit()` method will escape content *if* **#safeOutput** is set to **true** (which it is by default).
 
 ```coffee
-class MyView extends Base
+class MyView extends Html
   contentBlock: ->
     @unlit '<wierdtag/> Mung'
 
