@@ -5,12 +5,7 @@ module.exports = class Base
   constructor: ->
     @_content = ''
     @safeOutput = yes
-    @specialChars =
-      '&': '&amp;'
-      '<': '&lt;'
-      '>': '&gt;'
-      '"': '&quot;'
-      "'": '&#39;'
+    @specialChars = {}
 
   compile: (fn)->
     @_content = ''
