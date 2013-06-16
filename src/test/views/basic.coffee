@@ -1,6 +1,6 @@
-Base = require '../../lib/base'
+Html = require '../../lib/html'
 
-module.exports = class BasicTemplate extends Base
+module.exports = class BasicTemplate extends Html
   render: ->
     @doctype 5
     @html ->

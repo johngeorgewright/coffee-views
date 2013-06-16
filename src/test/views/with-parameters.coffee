@@ -1,6 +1,6 @@
-Base = require '../../lib/base'
+Html = require '../../lib/html'
 
-module.exports = class WithParameters extends Base
+module.exports = class WithParameters extends Html
   render: (options)->
     @doctype 5
     @html ->

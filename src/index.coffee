@@ -1,4 +1,5 @@
 module.exports =
   engine: require './lib/engine'
-  Base: require './lib/base'
+  Xml: require './lib/xml'
+  Html: require './lib/html'
 
