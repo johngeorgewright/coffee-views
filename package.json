@@ -1,6 +1,6 @@
 {
   "name": "coffee-views",
-  "version": "5.1.0",
+  "version": "5.1.1",
   "description": "An OOP extension to coffee-templates",
   "main": "build/index.js",
   "scripts": {
