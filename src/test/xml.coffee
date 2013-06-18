@@ -1,4 +1,3 @@
-path = require 'path'
 Xml = require '../lib/xml'
 
 module.exports =
@@ -53,31 +52,6 @@ module.exports =
       test.equal html, '<test brungle="mung face"/>'
       test.done()
 
-  '#compile()':
-
-    'will render some functions as tags': (test)->
-      result = '<html><head></head><body></body></html>'
-      html = @xml.compile ->
-        @tag 'html', ->
-          @tag 'head', ->
-          @tag 'body', ->
-      test.equal @xml._content, result, 'it did not add the content to the #_content property'
-      test.equal html, result, 'it did not return the #_content property'
-      test.done()
-
-    'will use a method from it\'s own instance when a string is passed as the first argument': (test)->
-      result = '<html><head></head><body></body></html>'
-      class Template extends Xml
-        render: ->
-          @tag 'html', ->
-            @tag 'head', ->
-            @tag 'body', ->
-      template = new Template()
-      html = template.compile 'render'
-      test.equal template._content, result, 'it did not add the content to the #_content property'
-      test.equal html, result, 'it did not return the #_content property'
-      test.done()
-
   '#lit()':
 
     'will add any content directly to the output string': (test)->
@@ -101,12 +75,5 @@ module.exports =
       @xml.safeOutput = no
       html = @xml.unlit '<unlit>'
       test.equal html, '<unlit>'
-      test.done()
-
-  '#partial()':
-
-    'it will compile another view inside the current one': (test) ->
-      html = @xml.partial path.join __dirname, 'views', 'basic'
-      test.equal html, '<!doctype html><html><head></head><body></body></html>'
       test.done()
 

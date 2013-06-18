@@ -16,11 +16,17 @@ module.exports = class Base
     fn.apply this, args
     @_content
 
-  partial: (path, options={})->
+  partial: (origin, options={})->
     options.method ?= 'render'
     options.data ?= {}
-    View = require path
-    view = new View()
+    switch typeof origin
+      when 'function'
+        view = new origin()
+      when 'string'
+        View = require origin
+        view = new View()
+      else
+        throw new Error "Partial origin must be a class or string"
     @lit view.compile options.method, options.data
 
   lit: (output)->
