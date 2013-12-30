@@ -77,3 +77,58 @@ module.exports =
       test.equal html, '<unlit>'
       test.done()
 
+  '##registerTag()':
+
+    setUp: (done)->
+      class MyXml extends Xml
+      MyXml.registerTag 'mung'
+      @MyXml = MyXml
+      done()
+
+    'will add a method to it\'s class\'s prototype': (test)->
+      test.equal typeof(@MyXml::mung), 'function'
+      test.equal typeof(Xml::mung), 'undefined'
+      test.done()
+
+    'will add define a method to create markup': (test)->
+      xml = new @MyXml()
+      test.equal xml.mung(), '<mung/>'
+      test.equal xml.mung('face'), '<mung>face</mung>'
+      test.done()
+
+  '##registerOpenTag()':
+
+    setUp: (done)->
+      class MyXml extends Xml
+      MyXml.registerOpenTag 'always-open'
+      @MyXml = MyXml
+      done()
+
+    'will add a method to it\'s class\'s prototype': (test)->
+      test.equal typeof(@MyXml::['always-open']), 'function'
+      test.equal typeof(Xml::['always-open']), 'undefined'
+      test.done()
+
+    'will add define a method to create markup': (test)->
+      xml = new @MyXml()
+      test.equal xml['always-open'](), '<always-open></always-open>'
+      test.done()
+
+  '##registerClosedTag()':
+
+    setUp: (done)->
+      class MyXml extends Xml
+      MyXml.registerClosedTag 'always-closed'
+      @MyXml = MyXml
+      done()
+
+    'will add a method to it\'s class\'s prototype': (test)->
+      test.equal typeof(@MyXml::['always-closed']), 'function'
+      test.equal typeof(Xml::['always-closed']), 'undefined'
+      test.done()
+
+    'will add define a method to create markup': (test)->
+      xml = new @MyXml()
+      test.equal xml['always-closed']('mung'), '<always-closed/>'
+      test.done()
+

@@ -191,8 +191,45 @@ ExtendedView.prototype.contentBlock = function(){
 };
 ```
 
-Extra Tags
-----------
+Registering XML Tags
+--------------------
+
+When creating your own XML tags you can register them like so:
+
+```coffee
+# my-xml.coffee
+
+{Xml} = require 'coffee-views'
+
+class MyXml extends Xml
+  
+MyXml.registerTag 'mung'
+MyXml.registerTag 'face'
+MyXml.registerOpenTag 'this-is-always-open'
+MyXml.registerClosedTag 'this-is-always-closed'
+```
+
+```coffee
+# your-xml.coffee
+
+MyXml = require './my-xml'
+
+class YourXml extends MyXml
+  render: ->
+    @mung ->
+      @face 'yay, custom tags'
+    @['this-is-always-open']()
+    @['this-is-always-closed']()
+
+# <mung><face>yay custom tags</face></mung>
+# <this-is-always-open></this-is-always-open>
+# <this-is-always-closed/>
+```
+
+Registered HTML Tags
+--------------------
+
+Apart from the obvious HTML5 compliant tags, here are a few extras.
 
 ### The JavaScript Tag
 

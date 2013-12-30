@@ -45,3 +45,21 @@ module.exports = class Xml extends Base
     @_content += html
     html
 
+  @registerTag: (tag, alterArgs)->
+    @::[tag] = ->
+      args = Array::slice.call arguments
+      alterArgs args if typeof(alterArgs) is 'function'
+      args.unshift tag
+      @tag.apply this, args
+
+  @registerOpenTag: (tag)->
+    @registerTag tag, (args)->
+      if args.length < 2 and typeof(args[0]) not in ['string', 'function']
+        args.push ''
+
+  @registerClosedTag: (tag)->
+    @registerTag tag, (args)->
+      last = args.length - 1
+      if last >= 0 and typeof(args[last]) isnt 'object'
+        args[last] = false
+
