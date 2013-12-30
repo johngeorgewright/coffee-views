@@ -62,21 +62,8 @@ module.exports = class Html extends Xml
     tag
 
   openTags = 'a abbr address article aside audio b bdi bdo blockquote body button canvas caption cite code colgroup command data datagrid datalist dd del details dfn div dl dt em embed eventsource fieldset figcaption figure footer form h1 h2 h3 h4 h5 h6 head header hgroup html i iframe ins kbd keygen label legend li mark map menu meter nav noscript object ol optgroup option output p pre progress q ruby rp rt s samp script section select small source span strong style sub summary sup table tbody td textarea tfoot th thead time title tr track u ul var video wbr'.split ' '
-  for tag in openTags
-    do (tag)->
-      Html::[tag] = ->
-        args = Array::slice.call arguments
-        if args.length < 2 and typeof(args[0]) not in ['string', 'function']
-          args.push ''
-        args.unshift tag
-        @tag.apply this, args
+  Html.registerOpenTag tag for tag in openTags
 
   closedTags = 'area base br col hr img input link meta param'.split ' '
-  for tag in closedTags
-    do (tag)->
-      Html::[tag] = ->
-        args = Array::slice.call arguments
-        args[1] = false
-        args.unshift tag
-        @tag.apply this, args
+  Html.registerClosedTag tag for tag in closedTags
 
