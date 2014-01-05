@@ -371,5 +371,7 @@ HTML comments.
   @link rel:'stylesheet', href:'ie.css'
 @ie 7, ->
   @link rel:'stylesheet', href:'ie7.css'
+@ie 'lte', 8, ->
+  @link rel:'stylesheet', href:'ie8.css'
 ```
 

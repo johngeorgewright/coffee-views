@@ -40,6 +40,11 @@ module.exports =
       test.equal html, '<!--[if IE 6]>IE 6 only<[endif]-->'
       test.done()
 
+    'it can specify versions greater or less than': (test)->
+      html = @html.ie 'lte', 6, 'Less than or equal to 6'
+      test.equal html, '<!--[if lte IE 6]>Less than or equal to 6<[endif]-->'
+      test.done()
+
   '#[tag]()':
 
     'certain tags will be made open by default': (test)->

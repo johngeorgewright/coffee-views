@@ -24,13 +24,23 @@ module.exports = class Html extends Xml
     @safeOutput = safeOutput
     tag
 
-  ie: (version=null, content='')->
-    if arguments.length < 2
-      content = version
-      version = ''
-    else
-      version = ' ' + version
-    "<!--[if IE#{version}]>#{util.contentCreator.call this, content}<[endif]-->"
+  ie: (operator='', version='', content='')->
+    switch arguments.length
+      when 2
+        content = version
+        version = operator
+        operator = ""
+      when 1
+        content = operator
+        operator = ""
+    comment = "<!--[if "
+    comment += "#{operator} " if operator
+    comment += "IE"
+    comment += " #{version}" if version
+    comment += "]>"
+    comment += "#{util.contentCreator.call this, content}"
+    comment += "<[endif]-->"
+    comment
 
   javascript: (attrs={}, args=[], content='')->
     if attrs instanceof Array
