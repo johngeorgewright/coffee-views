@@ -21,29 +21,27 @@ module.exports = class Xml extends Base
   comment: (content='')->
     "<!-- #{util.contentCreator.call this, content} -->"
 
-  tag: (name, attrs={}, content=false)->
-    unless typeof(attrs) is 'object'
-      content = attrs
-      attrs = {}
-
-    html = "<#{name}"
-
+  renderAttributes: (attrs) ->
+    xml = ""
     for own key, val of attrs
       if val
-        html += ' ' + key
-        unless typeof(val) is 'boolean'
+        xml += " " if xml.length > 0
+        xml += key
+        unless typeof(val) is "boolean"
           val = val.join ' ' if val instanceof Array
-          html += "=\"#{if @safeOutput then @escape val else val}\""
+          xml += "=\"#{if @safeOutput then @escape val else val}\""
+    xml
 
+  tag: (name, attrs={}, content=false)->
+    unless typeof attrs is 'object'
+      content = attrs
+      attrs = {}
+    xml = "<#{name}"
+    xml += " " + @renderAttributes(attrs) if Object.keys(attrs).length > 0
     content = util.contentCreator.call this, content
-
-    if content is false
-      html += '/>'
-    else
-      html += ">#{content}</#{name}>"
-
-    @_content += html
-    html
+    xml += if content is false then '/>' else ">#{content}</#{name}>"
+    @_content += xml
+    xml
 
   @registerTag: (tag, alterArgs)->
     @::[tag] = ->
