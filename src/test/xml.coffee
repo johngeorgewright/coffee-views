@@ -11,6 +11,7 @@ module.exports =
     'it will display a HTML comment': (test)->
       html = @xml.comment 'This is a comment'
       test.equal html, '<!-- This is a comment -->'
+      test.equal @xml._content, '<!-- This is a comment -->'
       test.done()
 
   '#escape()':

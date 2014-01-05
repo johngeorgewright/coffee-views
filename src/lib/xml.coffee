@@ -19,7 +19,7 @@ module.exports = class Xml extends Base
     doctype
 
   comment: (content='')->
-    "<!-- #{util.contentCreator.call this, content} -->"
+    @lit "<!-- #{util.contentCreator.call this, content} -->"
 
   renderAttributes: (attrs) ->
     xml = ""
@@ -40,8 +40,7 @@ module.exports = class Xml extends Base
     xml += " " + @renderAttributes(attrs) if Object.keys(attrs).length > 0
     content = util.contentCreator.call this, content
     xml += if content is false then '/>' else ">#{content}</#{name}>"
-    @_content += xml
-    xml
+    @lit xml
 
   @registerTag: (tag, alterArgs)->
     @::[tag] = ->
