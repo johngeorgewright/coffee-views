@@ -38,7 +38,7 @@ module.exports = class Html extends Xml
     comment += "IE"
     comment += " #{version}" if version
     comment += "]>"
-    comment += "#{util.contentCreator.call this, content}"
+    comment += util.contentCreator.call this, content
     comment += "<[endif]-->"
     comment
 
