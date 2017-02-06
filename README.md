@@ -1,6 +1,8 @@
 coffee-views
 ============
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/johngeorgewright/coffee-views.svg)](https://greenkeeper.io/)
+
 Coffee Views was inspired by [coffee-templates](https://github.com/mikesmullin/coffee-templates) and [coffeekup](https://github.com/gradus/coffeecup) to add template inheritance to CoffeeScript templating.
 
 Installation
